@@ -39,12 +39,15 @@ public class AvailableRouteDisplayFragment extends Fragment implements OnMapRead
 
         availableRouteDisplayViewModel =
                 ViewModelProviders.of(this).get(AvailableRouteDisplayViewModel.class);
+
+
         View root = inflater.inflate(R.layout.fragment_available_routes_detail, container, false);
+
+
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.available_map);
         mapFragment.getMapAsync(this);
-
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), getCallBack());
 
 
