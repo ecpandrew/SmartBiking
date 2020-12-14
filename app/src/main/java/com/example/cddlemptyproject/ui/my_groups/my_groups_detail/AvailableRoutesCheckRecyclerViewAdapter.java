@@ -12,24 +12,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cddlemptyproject.R;
 import com.example.cddlemptyproject.logic.data.model.RoutesAvailable;
+import com.example.cddlemptyproject.logic.data.model.RoutesRegistered;
 
 import java.util.List;
 
 public class AvailableRoutesCheckRecyclerViewAdapter extends RecyclerView.Adapter<AvailableRoutesCheckRecyclerViewAdapter.ViewHolder> {
 
-    private List<RoutesAvailable> mData;
+    private RoutesRegistered[] mData;
     private LayoutInflater mInflater;
     private AvailableRoutesCheckRecyclerViewAdapter.ItemClickListener mClickListener;
     private int selectedPosition = -1;
 
     // data is passed into the constructor
-    AvailableRoutesCheckRecyclerViewAdapter(Context context, List<RoutesAvailable> data) {
+    AvailableRoutesCheckRecyclerViewAdapter(Context context, RoutesRegistered[] data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
     }
 
-    public void changeDataSet(List<RoutesAvailable> data){
-        mData.clear();
+    public void changeDataSet(RoutesRegistered[] data){
+        mData = null;
         mData = data;
         notifyDataSetChanged();
     }
@@ -48,9 +49,9 @@ public class AvailableRoutesCheckRecyclerViewAdapter extends RecyclerView.Adapte
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(AvailableRoutesCheckRecyclerViewAdapter.ViewHolder holder, int position) {
-        RoutesAvailable rota = mData.get(position);
+        RoutesRegistered rota = mData[position];
 
-        holder.routeName.setText(rota.getRouteName());
+        holder.routeName.setText(rota.getNome());
         holder.checkbox.setOnClickListener( view -> {
             selectedPosition = holder.getAdapterPosition();
             notifyDataSetChanged();
@@ -66,7 +67,7 @@ public class AvailableRoutesCheckRecyclerViewAdapter extends RecyclerView.Adapte
     // total number of rows
     @Override
     public int getItemCount() {
-        return mData.size();
+        return mData.length;
     }
 
 
@@ -90,9 +91,9 @@ public class AvailableRoutesCheckRecyclerViewAdapter extends RecyclerView.Adapte
     }
 
     // convenience method for getting data at click position
-    RoutesAvailable getItem(int id) {
-        return mData.get(id);
-    }
+//    RoutesRegistered getItem(int id) {
+//        return mData.get(id);
+//    }
 
 
     // allows clicks events to be caught

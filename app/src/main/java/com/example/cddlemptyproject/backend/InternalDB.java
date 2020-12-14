@@ -26,7 +26,7 @@ public class InternalDB {
             case "andre.cardoso@lsdi.ufma.br":
                 resource_ids.add("5c88e1e3-f5a0-4c1b-9682-97cd3f5f5d9a");
                 resource_ids.add("9a26b506-5e8e-4230-a150-cd5e1e29c856");
-                resource_ids.add("b5d934a6-3448-417a-8fc9-963df23676a4");
+                resource_ids.add("85acec75-1b9f-4997-a7d4-5bfa91ff9233");
 
                 return resource_ids;
             case "thiago.wallass@lsdi.ufma.br":
@@ -52,7 +52,7 @@ public class InternalDB {
                 new Group("5c88e1e3-f5a0-4c1b-9682-97cd3f5f5d9a", "Grupo de Ciclismo Avançado", "andre.cardoso@lsdi.ufma.br"),
                 new Group("9a26b506-5e8e-4230-a150-cd5e1e29c856", "Grupo de Ciclismo FSSILVA", "fssilva@lsdi.ufma.br"),
                 new Group("011fd32f-702c-447b-ba70-7fd3751a23c2", "Grupo de Ciclismo do Ariel", "ariel@lsdi.ufma.br"),
-                new Group("b5d934a6-3448-417a-8fc9-963df23676a4", "Grupo de Ciclismo de TESTES 2", "andre.cardoso@lsdi.ufma.br")
+                new Group("85acec75-1b9f-4997-a7d4-5bfa91ff9233", "Grupo de Ciclismo de TESTES 3", "andre.cardoso@lsdi.ufma.br")
 
                 );
 

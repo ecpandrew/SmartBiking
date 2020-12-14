@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.cddlemptyproject.R;
 import com.example.cddlemptyproject.logic.data.InterSCityDataPoster;
 import com.example.cddlemptyproject.logic.data.model.RoutesAvailable;
+import com.example.cddlemptyproject.logic.data.model.RoutesRegistered;
 import com.example.cddlemptyproject.ui.all_groups.single_group_detail.AvailableRoutesRecyclerViewAdapter;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -73,6 +74,7 @@ public class GroupLeaderFragment extends Fragment implements OnMapReadyCallback,
 
         groupLeaderViewModel =
                 ViewModelProviders.of(this).get(GroupLeaderViewModel.class);
+        groupLeaderViewModel.setContext(requireActivity().getApplicationContext());
         View root = inflater.inflate(R.layout.fragment_group_leader, container, false);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
@@ -89,23 +91,23 @@ public class GroupLeaderFragment extends Fragment implements OnMapReadyCallback,
         RecyclerView availableRecyclerView = root.findViewById(R.id.pick_available_routes);
         RecyclerView.LayoutManager availableLayoutManager = new LinearLayoutManager(getContext());
         availableRecyclerView.setLayoutManager(availableLayoutManager);
-        availableRoutesCheckRecyclerViewAdapter = new AvailableRoutesCheckRecyclerViewAdapter(getContext(), new ArrayList<>());
+        availableRoutesCheckRecyclerViewAdapter = new AvailableRoutesCheckRecyclerViewAdapter(getContext(), new RoutesRegistered[]{});
         availableRecyclerView.setAdapter(availableRoutesCheckRecyclerViewAdapter);
 
 
 
 
-        groupLeaderViewModel.getRoutesAvailable().observe(getViewLifecycleOwner(), new Observer<List<RoutesAvailable>>() {
+        groupLeaderViewModel.getRoutesAvailable().observe(getViewLifecycleOwner(), new Observer<RoutesRegistered[]>() {
             @Override
-            public void onChanged(List<RoutesAvailable> routesAvailables) {
-                availableRoutesCheckRecyclerViewAdapter.changeDataSet(routesAvailables);
-
+            public void onChanged(RoutesRegistered[] routesRegistereds) {
+                availableRoutesCheckRecyclerViewAdapter.changeDataSet(routesRegistereds);
             }
+
         });
 
 
 
-        groupLeaderViewModel.loadGroupDetails();
+        groupLeaderViewModel.loadRoutesOfGroup(group_uuid);
 
         marcadores = new ArrayList<>();
 
@@ -132,6 +134,9 @@ public class GroupLeaderFragment extends Fragment implements OnMapReadyCallback,
                 }
                 sendToInterSCity(group_uuid, latitude_array, longitude_array);
                 removeAllMarker();
+                routeName.setText("");
+                routeLevel.setText("");
+                groupLeaderViewModel.loadRoutesOfGroup(group_uuid);
 
             }
         });
