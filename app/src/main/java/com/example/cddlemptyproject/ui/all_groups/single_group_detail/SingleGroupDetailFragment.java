@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.cddlemptyproject.R;
 import com.example.cddlemptyproject.logic.data.model.RoutesAvailable;
 import com.example.cddlemptyproject.logic.data.model.RoutesPerformed;
+import com.example.cddlemptyproject.logic.data.model.RoutesRegistered;
 import com.example.cddlemptyproject.ui.all_groups.AllGroupsFragment;
 import com.example.cddlemptyproject.ui.all_groups.AllGroupsRecyclerViewAdapter;
 import com.example.cddlemptyproject.ui.all_groups.single_group_detail.routes_details.AvailableRouteDisplayFragment;
@@ -47,6 +48,7 @@ public class SingleGroupDetailFragment extends Fragment  {
         requireActivity().setTitle(group_name);
 
         singleGroupDetailViewModel = ViewModelProviders.of(this).get(SingleGroupDetailViewModel.class);
+        singleGroupDetailViewModel.setContext(requireContext().getApplicationContext());
         View root = inflater.inflate(R.layout.fragment_single_group_detail, container, false);
         final TextView groupNameTextView = root.findViewById(R.id.group_detail_name);
         final TextView groupLeaderTextView = root.findViewById(R.id.group_detail_leader);
@@ -60,7 +62,7 @@ public class SingleGroupDetailFragment extends Fragment  {
         RecyclerView availableRecyclerView = root.findViewById(R.id.group_available_routes);
         RecyclerView.LayoutManager availableLayoutManager = new LinearLayoutManager(getContext());
         availableRecyclerView.setLayoutManager(availableLayoutManager);
-        availableRoutesRecyclerViewAdapter = new AvailableRoutesRecyclerViewAdapter(getContext(), new ArrayList<>());
+        availableRoutesRecyclerViewAdapter = new AvailableRoutesRecyclerViewAdapter(getContext(), new RoutesRegistered[]{});
         availableRecyclerView.setAdapter(availableRoutesRecyclerViewAdapter);
 
 
@@ -71,12 +73,14 @@ public class SingleGroupDetailFragment extends Fragment  {
         performedRecyclerView.setAdapter(performedRoutesRecyclerViewAdapter);
 
 
-        singleGroupDetailViewModel.getRoutesAvailable().observe(getViewLifecycleOwner(), new Observer<List<RoutesAvailable>>() {
+        singleGroupDetailViewModel.getRoutesAvailable().observe(getViewLifecycleOwner(), new Observer<RoutesRegistered[]>() {
             @Override
-            public void onChanged(List<RoutesAvailable> routesAvailables) {
-                availableRoutesRecyclerViewAdapter.changeDataSet(routesAvailables);
+            public void onChanged(RoutesRegistered[] routesRegistereds) {
+                availableRoutesRecyclerViewAdapter.changeDataSet(routesRegistereds);
+
             }
         });
+
 
         singleGroupDetailViewModel.getRoutesPerformed().observe(getViewLifecycleOwner(), new Observer<List<RoutesPerformed>>() {
             @Override
@@ -85,7 +89,8 @@ public class SingleGroupDetailFragment extends Fragment  {
             }
         });
 
-        singleGroupDetailViewModel.loadGroupDetails();
+
+        singleGroupDetailViewModel.loadGroupDetails(uuid);
 
 
         availableRoutesRecyclerViewAdapter.setClickListener(getAvailableRoutesClickListener());
@@ -124,9 +129,14 @@ public class SingleGroupDetailFragment extends Fragment  {
         return new AvailableRoutesRecyclerViewAdapter.ItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                getActivity().setTitle("Detalhes do Percurso");
+                RoutesRegistered rotaEscolhida = availableRoutesRecyclerViewAdapter.getItem(position);
+                getActivity().setTitle(rotaEscolhida.getNome());
                 Fragment fragment = new AvailableRouteDisplayFragment();
-                fragment.setArguments(extras);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("route", rotaEscolhida);
+                Log.d("###", rotaEscolhida.getLatitude_array().length+"");
+//                fragment.setArguments(extras);
+                fragment.setArguments(bundle);
                 loadFragment(fragment);
             }
 

@@ -91,9 +91,9 @@ public class AvailableRoutesCheckRecyclerViewAdapter extends RecyclerView.Adapte
     }
 
     // convenience method for getting data at click position
-//    RoutesRegistered getItem(int id) {
-//        return mData.get(id);
-//    }
+    RoutesRegistered getItem(int id) {
+        return mData[id];
+    }
 
 
     // allows clicks events to be caught

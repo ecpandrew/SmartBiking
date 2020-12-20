@@ -16,6 +16,7 @@ import com.example.cddlemptyproject.logic.data.model.Coordenadas;
 import com.example.cddlemptyproject.logic.data.model.RoutesAvailable;
 import com.example.cddlemptyproject.logic.data.model.RoutesPerformed;
 import com.example.cddlemptyproject.logic.data.model.RoutesRegistered;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -29,13 +30,13 @@ import java.util.List;
 
 public class GroupMemberViewModel extends ViewModel {
 
-    private MutableLiveData<Coordenadas> coordenadaAtual;
+    private MutableLiveData<LatLng> coordenadaAtual;
     private final String baseUri = "http://cidadesinteligentes.lsdi.ufma.br/";
     private RequestQueue queue;
     private Context context;
 
     public GroupMemberViewModel() {
-        coordenadaAtual  = new MutableLiveData<Coordenadas>();
+        coordenadaAtual  = new MutableLiveData<LatLng>();
     }
 
     public void setVoleyContext(Context context) {
@@ -44,7 +45,7 @@ public class GroupMemberViewModel extends ViewModel {
     }
 
 
-    public MutableLiveData<Coordenadas> getCoordenadaAtual() {
+    public MutableLiveData<LatLng> getCoordenadaAtual() {
         return coordenadaAtual;
     }
 
@@ -63,8 +64,8 @@ public class GroupMemberViewModel extends ViewModel {
 
                 String jsonStr = dados.toString();
                 Gson gson = new Gson();
-
-                coordenadaAtual.setValue(gson.fromJson(jsonStr, Coordenadas.class)); // esse valor setado notifica automaticamente a interface e lá podemos atualizar o mapa
+                Coordenadas coord = gson.fromJson(jsonStr, Coordenadas.class);
+                coordenadaAtual.postValue(new LatLng(coord.getLatitude(), coord.getLongitude())); // esse valor setado notifica automaticamente a interface e lá podemos atualizar o mapa
 
 
 

@@ -37,6 +37,7 @@ import com.example.cddlemptyproject.logic.models.User;
 import com.example.cddlemptyproject.ui.all_groups.AllGroupsRecyclerViewAdapter;
 import com.example.cddlemptyproject.ui.all_groups.AllGroupsViewModel;
 import com.example.cddlemptyproject.ui.my_groups.my_groups_detail.GroupLeaderFragment;
+import com.example.cddlemptyproject.ui.my_groups.my_groups_detail.GroupMemberFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,6 +115,13 @@ public class MyGroupsFragment extends Fragment implements MyGroupsRecyclerViewAd
             fragment.setArguments(bundle);
             loadFragment(fragment);
         }else{
+            Bundle bundle = new Bundle();
+            bundle.putString("group_uuid", adapter.getItem(position).getResourceUuid());
+            bundle.putString("group_name", adapter.getItem(position).getGroupName());
+            bundle.putString("group_leader", adapter.getItem(position).getGroupLeader());
+            Fragment fragment = new GroupMemberFragment();
+            fragment.setArguments(bundle);
+            loadFragment(fragment);
 
         }
 

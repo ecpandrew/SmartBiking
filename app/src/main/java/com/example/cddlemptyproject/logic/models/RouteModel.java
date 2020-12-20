@@ -6,26 +6,20 @@ import java.util.ArrayList;
 
 public class RouteModel {
 
-    private String userName;
-    private String routeName;
 
     private ArrayList<Long> timestamp;
     private ArrayList<Double> latitude;
     private ArrayList<Double> longitude;
     private ArrayList<Double> altitude;
 
-    private ArrayList<Double> instantSpeed;
 
 
 
-    public RouteModel(String userName, String routeName){
-        this.userName = userName;
-        this.routeName = routeName;
+    public RouteModel(){
         this.timestamp = new ArrayList<>();
         this.latitude = new ArrayList<>();
         this.longitude = new ArrayList<>();
         this.altitude = new ArrayList<>();
-        this.instantSpeed = new ArrayList<>();
     }
 
     public void addTimestamp(Long t){
@@ -40,40 +34,22 @@ public class RouteModel {
     public void addAltitude(Double l){
         altitude.add(l);
     }
-    public void addInstantSpeed(Double l){instantSpeed.add(l);}
 
 
     public int getSize(){return latitude.size();}
 
-    public String getRouteName() {
-        return routeName;
-    }
 
-    public String getUserName() {
-        return userName;
-    }
 
-    public void setRouteName(String routeName) {
-        this.routeName = routeName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
 
     @Override
     public String toString() {
         return "RouteModel{" +
-                "userName='" + userName + '\'' +
-                ", routeName='" + routeName + '\'' +
-                ", timestamp=" + timestamp +
+                "timestamp=" + timestamp +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
                 ", altitude=" + altitude +
                 '}';
     }
-
-
 
     public Double getTotalTravelledDistance(){
         int i = latitude.size()-1;
@@ -106,4 +82,10 @@ public class RouteModel {
         return altitude.get(i);
     }
 
+    public void clearAll() {
+        latitude.clear();
+        longitude.clear();
+        altitude.clear();
+        timestamp.clear();
+    }
 }

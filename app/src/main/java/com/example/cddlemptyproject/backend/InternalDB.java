@@ -45,7 +45,7 @@ public class InternalDB {
 
     public static List<Group> getAllGroups(){
 
-
+        // Este request deveria ser em uma base de dados relacional(backend). Como não foi implementado tivemos que descobrir os grupos de maneira estatica
         return Arrays.asList(
                 new Group("326dbfc1-a4f3-40de-a355-800cb577888f", "Grupo de Ciclismo Iniciante", "lcmuniz@lsdi.ufma.br" ),
                 new Group("4a29e932-2a8d-47d7-882b-cb6753e4bffa", "Grupo de Ciclismo Intermediario", "thiago.wallass@lsdi.ufma.br"),

@@ -35,9 +35,6 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_initial" >
-        </activity>
-
-        <activity android:name=".LoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,12 +42,17 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".LoginActivity" >
+
+        </activity>
+
         <service
             android:name=".logic.services.EndlessService"
             android:enabled="true"
             android:exported="false" />
 
-        <activity android:name=".TrackActivity" >
+        <activity android:name=".TrackActivity"
+            android:label="TrackActivity">
         </activity>
     </application>
 

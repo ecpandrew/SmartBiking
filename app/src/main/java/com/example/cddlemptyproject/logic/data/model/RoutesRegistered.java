@@ -1,12 +1,16 @@
 package com.example.cddlemptyproject.logic.data.model;
 
-public class RoutesRegistered {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class RoutesRegistered implements Parcelable {
 
     private String nome;
     private String identificador;
     private String dificuldade;
     private Double[] latitude_array;
     private Double[] longitude_array;
+
     public RoutesRegistered(String nome, String identificador, String dificuldade, Double[] latitude_array, Double[] longitude_array){
         this.nome = nome;
         this.identificador = identificador;
@@ -14,6 +18,24 @@ public class RoutesRegistered {
         this.latitude_array = latitude_array;
         this.longitude_array = longitude_array;
     }
+
+    protected RoutesRegistered(Parcel in) {
+        nome = in.readString();
+        identificador = in.readString();
+        dificuldade = in.readString();
+    }
+
+    public static final Creator<RoutesRegistered> CREATOR = new Creator<RoutesRegistered>() {
+        @Override
+        public RoutesRegistered createFromParcel(Parcel in) {
+            return new RoutesRegistered(in);
+        }
+
+        @Override
+        public RoutesRegistered[] newArray(int size) {
+            return new RoutesRegistered[size];
+        }
+    };
 
     public String getNome() {
         return nome;
@@ -53,5 +75,17 @@ public class RoutesRegistered {
 
     public void setLongitude_array(Double[] longitude_array) {
         this.longitude_array = longitude_array;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(nome);
+        dest.writeString(identificador);
+        dest.writeString(dificuldade);
     }
 }

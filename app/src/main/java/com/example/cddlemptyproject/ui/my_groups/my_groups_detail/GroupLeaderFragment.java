@@ -1,5 +1,6 @@
 package com.example.cddlemptyproject.ui.my_groups.my_groups_detail;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cddlemptyproject.R;
+import com.example.cddlemptyproject.TrackActivity;
 import com.example.cddlemptyproject.logic.data.InterSCityDataPoster;
 import com.example.cddlemptyproject.logic.data.model.RoutesAvailable;
 import com.example.cddlemptyproject.logic.data.model.RoutesRegistered;
@@ -49,15 +52,16 @@ public class GroupLeaderFragment extends Fragment implements OnMapReadyCallback,
 
     private AvailableRoutesCheckRecyclerViewAdapter availableRoutesCheckRecyclerViewAdapter;
 
-    private AvailableRoutesCheckRecyclerViewAdapter availableRoutesCheckRecyclerViewAdapter2;
     private ArrayList<Marker> marcadores;
 
     private Button removerUltimoMaracador;
     private Button enviarPercurso;
+    private Button startTrackActivity;
     private Polyline polyline1;
 
     EditText routeName;
     EditText routeLevel;
+    EditText eventName;
     Bundle extras;
     String group_uuid;
     String group_name;
@@ -85,9 +89,10 @@ public class GroupLeaderFragment extends Fragment implements OnMapReadyCallback,
 
         removerUltimoMaracador = root.findViewById(R.id.removerMarker);
         enviarPercurso = root.findViewById(R.id.enviar);
+        startTrackActivity = root.findViewById(R.id.materialButtonSend);
         routeName = root.findViewById(R.id.route_set_name);
         routeLevel = root.findViewById(R.id.route_set_level);
-
+        eventName = root.findViewById(R.id.eventName);
         RecyclerView availableRecyclerView = root.findViewById(R.id.pick_available_routes);
         RecyclerView.LayoutManager availableLayoutManager = new LinearLayoutManager(getContext());
         availableRecyclerView.setLayoutManager(availableLayoutManager);
@@ -141,6 +146,31 @@ public class GroupLeaderFragment extends Fragment implements OnMapReadyCallback,
             }
         });
 
+        startTrackActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int pos = availableRoutesCheckRecyclerViewAdapter.getSelectedPosition();
+                if(pos == -1){
+                    Toast.makeText(requireContext().getApplicationContext(),"Selecione um percurso", Toast.LENGTH_SHORT).show();
+                }else{
+                    if(eventName.getText().toString().isEmpty()){
+                        Toast.makeText(requireContext().getApplicationContext(),"Insira o nome do evento!", Toast.LENGTH_SHORT).show();
+
+                    }else{
+                        RoutesRegistered routeSelected =  availableRoutesCheckRecyclerViewAdapter.getItem(pos);
+                        Intent intent = new Intent(requireActivity().getApplicationContext(), TrackActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("group_uuid", group_uuid );
+                        bundle.putString("event", eventName.getText().toString());
+                        bundle.putString("nome_percurso", routeSelected.getNome());
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+
+                    }
+
+                }
+            }
+        });
 
 
 
@@ -179,7 +209,6 @@ public class GroupLeaderFragment extends Fragment implements OnMapReadyCallback,
             public void onMapClick(LatLng latLng) {
                 marcadores.add(
                         mMap.addMarker(new MarkerOptions().position(latLng).title("new Marker")));
-                Log.i("LALALA", marcadores.toString());
             }
         });
 

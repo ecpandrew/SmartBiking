@@ -38,12 +38,16 @@ public class GroupMemberFragment extends Fragment implements OnMapReadyCallback{
     private GoogleMap mMap;
     private Marker marcador;
     private Handler handler = new Handler();
-    private String resource_uuid = "85acec75-1b9f-4997-a7d4-5bfa91ff9233";
+//    private String resource_uuid = "85acec75-1b9f-4997-a7d4-5bfa91ff9233";
+    Bundle extras;
+    String group_uuid;
+    String group_name;
+    String group_leader;
 
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            groupMemberViewModel.loadRoutesOfGroup(resource_uuid);
+            groupMemberViewModel.loadRoutesOfGroup(group_uuid);
             handler.postDelayed(this,5 * 1000); // loop a cada 5 segundos
         }
     };
@@ -52,6 +56,10 @@ public class GroupMemberFragment extends Fragment implements OnMapReadyCallback{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        extras = getArguments();
+        group_uuid = extras != null ? extras.getString("group_uuid") : null;
+        group_name = extras != null ? extras.getString("group_name") : null;
+        group_leader = extras != null ? extras.getString("group_leader") : null;
 
         // Iniciando a view Model, as requisições não ficam nessa atividade e sem nessa classe GroupMemberViewModel
         groupMemberViewModel = ViewModelProviders.of(this).get(GroupMemberViewModel.class);
@@ -70,10 +78,12 @@ public class GroupMemberFragment extends Fragment implements OnMapReadyCallback{
 
 
         // aqui o marcador atualiza cada vez que o valor da variavel coordenadasAtual dentro da view model atualiza
-        groupMemberViewModel.getCoordenadaAtual().observe(getViewLifecycleOwner(), new Observer<Coordenadas>() {
+        groupMemberViewModel.getCoordenadaAtual().observe(getViewLifecycleOwner(), new Observer<LatLng>() {
             @Override
-            public void onChanged(Coordenadas coordenadas) {
-                marcador.setPosition(new LatLng(coordenadas.getLatitude(), coordenadas.getLongitude()));
+            public void onChanged(LatLng coordenadas) {
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordenadas,15));
+                marcador.setPosition(coordenadas);
+
             }
         });
 
@@ -92,9 +102,8 @@ public class GroupMemberFragment extends Fragment implements OnMapReadyCallback{
 
         // Definindo posição inicial do mapa: essa coordenada é la na litoranea proximo a estatua dos pescadores
         LatLng start = new LatLng(-2.4902906, -44.296496);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(start,15));
 
-        marcador = mMap.addMarker(new MarkerOptions().title("new Marker"));
+        marcador = mMap.addMarker(new MarkerOptions().position(start).title("new Marker"));
 
     }
 

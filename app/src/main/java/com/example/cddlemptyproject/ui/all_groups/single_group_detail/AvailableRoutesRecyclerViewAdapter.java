@@ -12,24 +12,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.cddlemptyproject.R;
 import com.example.cddlemptyproject.logic.data.model.Group;
 import com.example.cddlemptyproject.logic.data.model.RoutesAvailable;
+import com.example.cddlemptyproject.logic.data.model.RoutesRegistered;
 
 import java.util.List;
 
 public class AvailableRoutesRecyclerViewAdapter extends RecyclerView.Adapter<AvailableRoutesRecyclerViewAdapter.ViewHolder> {
 
-    private List<RoutesAvailable> mData;
+    private RoutesRegistered[] mData;
     private LayoutInflater mInflater;
     private AvailableRoutesRecyclerViewAdapter.ItemClickListener mClickListener;
 
 
     // data is passed into the constructor
-    AvailableRoutesRecyclerViewAdapter(Context context, List<RoutesAvailable> data) {
+    AvailableRoutesRecyclerViewAdapter(Context context, RoutesRegistered[] data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
     }
 
-    public void changeDataSet(List<RoutesAvailable> data){
-        mData.clear();
+    public void changeDataSet(RoutesRegistered[] data){
         mData = data;
         notifyDataSetChanged();
     }
@@ -44,15 +44,15 @@ public class AvailableRoutesRecyclerViewAdapter extends RecyclerView.Adapter<Ava
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(AvailableRoutesRecyclerViewAdapter.ViewHolder holder, int position) {
-        RoutesAvailable rota = mData.get(position);
+        RoutesRegistered rota = mData[position];
 
-        holder.routeName.setText(rota.getRouteName());
+        holder.routeName.setText(rota.getNome());
     }
 
     // total number of rows
     @Override
     public int getItemCount() {
-        return mData.size();
+        return mData.length;
     }
 
 
@@ -76,10 +76,10 @@ public class AvailableRoutesRecyclerViewAdapter extends RecyclerView.Adapter<Ava
     }
 
     // convenience method for getting data at click position
-    RoutesAvailable getItem(int id) {
-        return mData.get(id);
-    }
 
+    public RoutesRegistered getItem(int id){
+        return mData[id];
+    }
 
     // allows clicks events to be caught
     void setClickListener(AvailableRoutesRecyclerViewAdapter.ItemClickListener itemClickListener) {
