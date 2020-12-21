@@ -34,9 +34,30 @@ public class GroupMemberViewModel extends ViewModel {
     private final String baseUri = "http://cidadesinteligentes.lsdi.ufma.br/";
     private RequestQueue queue;
     private Context context;
+    private MutableLiveData<String> vi;
+
+    private MutableLiveData<String> vel;
+    private MutableLiveData<String> distancia;
+    private MutableLiveData<String> tempo;
+
+    private MutableLiveData<String> eleGain;
+
+    private MutableLiveData<String> textButton;
 
     public GroupMemberViewModel() {
+
         coordenadaAtual  = new MutableLiveData<LatLng>();
+        vi = new MutableLiveData<String>();
+
+        vel = new MutableLiveData<String>();
+        distancia = new MutableLiveData<String>();
+        tempo = new MutableLiveData<String>();
+        eleGain = new MutableLiveData<String>();
+        textButton = new MutableLiveData<String>();
+    }
+
+    public void setTextButton(MutableLiveData<String> textButton) {
+        this.textButton = textButton;
     }
 
     public void setVoleyContext(Context context) {
@@ -44,6 +65,25 @@ public class GroupMemberViewModel extends ViewModel {
         this.queue = Volley.newRequestQueue(context);
     }
 
+    public MutableLiveData<String> getEleGain() {
+        return eleGain;
+    }
+
+    public MutableLiveData<String> getVi() {
+        return vi;
+    }
+
+    public MutableLiveData<String> getVel() {
+        return vel;
+    }
+
+    public MutableLiveData<String> getTempo() {
+        return tempo;
+    }
+
+    public MutableLiveData<String> getDistancia() {
+        return distancia;
+    }
 
     public MutableLiveData<LatLng> getCoordenadaAtual() {
         return coordenadaAtual;
@@ -112,5 +152,35 @@ public class GroupMemberViewModel extends ViewModel {
         queue.add(postRequest);
     }
 
+    public void loadTempoDecorrido(String tem){
+        tempo.postValue(tem);
+    }
 
+    public void loadVelocidadeMedia(String vm){
+        vel.postValue(vm);
+
+    }
+    public void loadTextButton(String t){
+        textButton.postValue(t);
+
+    }
+
+    public void loadVelocidadeInstantanea(String vinst) {
+        vi.postValue(vinst);
+
+    }
+
+    public void loadDistanciaPercorrida(String dis){
+        distancia.postValue(dis);
+
+    }
+
+    public void loadElevationGain(String ele){
+        eleGain.postValue(ele);
+
+    }
+
+    public MutableLiveData<String> getTextButton() {
+        return textButton;
+    }
 }

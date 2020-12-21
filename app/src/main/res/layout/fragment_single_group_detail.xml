@@ -107,7 +107,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/group_available_routes"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_margin="8dp"
                 app:layout_constrainedHeight="true"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -138,7 +138,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/group_performed_routes"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_margin="8dp"
                 app:layout_constrainedHeight="true"
                 app:layout_constraintBottom_toBottomOf="parent"

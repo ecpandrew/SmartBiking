@@ -20,19 +20,18 @@ import java.util.List;
 
 public class PerformedRoutesRecyclerViewAdapter extends RecyclerView.Adapter<PerformedRoutesRecyclerViewAdapter.ViewHolder> {
 
-    private List<RoutesPerformed> mData;
+    private RoutesPerformed[] mData;
     private LayoutInflater mInflater;
     private PerformedRoutesRecyclerViewAdapter.ItemClickListener mClickListener;
 
 
     // data is passed into the constructor
-    PerformedRoutesRecyclerViewAdapter(Context context, List<RoutesPerformed> data) {
+    PerformedRoutesRecyclerViewAdapter(Context context, RoutesPerformed[] data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
     }
 
-    public void changeDataSet(List<RoutesPerformed> data){
-        mData.clear();
+    public void changeDataSet(RoutesPerformed[] data){
         mData = data;
         notifyDataSetChanged();
     }
@@ -47,15 +46,15 @@ public class PerformedRoutesRecyclerViewAdapter extends RecyclerView.Adapter<Per
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(PerformedRoutesRecyclerViewAdapter.ViewHolder holder, int position) {
-        RoutesPerformed rota = mData.get(position);
+        RoutesPerformed rota = mData[position];
 
-        holder.routeName.setText(rota.getRouteName());
+        holder.routeName.setText(rota.getEvento());
     }
 
     // total number of rows
     @Override
     public int getItemCount() {
-        return mData.size();
+        return mData.length;
     }
 
 
@@ -80,7 +79,7 @@ public class PerformedRoutesRecyclerViewAdapter extends RecyclerView.Adapter<Per
 
     // convenience method for getting data at click position
     RoutesPerformed getItem(int id) {
-        return mData.get(id);
+        return mData[id];
     }
 
 

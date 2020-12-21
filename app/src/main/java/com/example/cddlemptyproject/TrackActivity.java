@@ -159,6 +159,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
     private void startEngine(){
         engine = EPServiceProviderManager.getDefaultProvider();
+
         engine.getEPAdministrator().getConfiguration().addEventType(EventoDistancia.class);
         engine.getEPAdministrator().getConfiguration().addEventType(EventoVelocidadeInstantanea.class);
         engine.getEPAdministrator().getConfiguration().addEventType(EventoGain.class);
@@ -169,30 +170,28 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         String rule1 = "select (distancia/"+ frequency +") as velocidadeInstantanea, count(*)*" + frequency + "as tempoDecorrido FROM EventoDistancia";
         EPStatement statement = engine.getEPAdministrator().createEPL(rule1);
         statement.addListener((newData, oldData) -> {
-            Double velInst = (Double) newData[0].get("velocidadeInstantanea");
+            trackViewModel
+                    .loadTempoDecorrido(newData[0].get("tempoDecorrido").toString()); // Envia os valores para a INTERFACE
 
-            trackViewModel.loadTempoDecorrido(newData[0].get("tempoDecorrido").toString());
-            trackViewModel.loadVelocidadeInstantanea(newData[0].get("velocidadeInstantanea").toString());
+            trackViewModel
+                    .loadVelocidadeInstantanea(newData[0].get("velocidadeInstantanea").toString()); // Envia os valores para a INTERFACE
 
-            engine.getEPRuntime().sendEvent(new EventoVelocidadeInstantanea( velInst ));
+            engine.getEPRuntime()
+                    .sendEvent(new EventoVelocidadeInstantanea( (Double) newData[0].get("velocidadeInstantanea") ));
 
         });
 
         String rule2 = "select avg(velocidadeInstantanea) as velocidadeMedia,  ((sum(velocidadeInstantanea)/count(*))*count(*)*" +frequency+ ") as distanciaPercorrida from EventoVelocidadeInstantanea\n";
         EPStatement statement2 = engine.getEPAdministrator().createEPL(rule2);
         statement2.addListener( (newData, oldData) -> {
-//            Log.d("monitor", "rule2: "+ newData[0].get("velocidadeMedia") +" tempo decorrido (s): "+ newData[0].get("tempoDecorrido") +" distancia percorrida: "+ newData[0].get("distanciaPercorrida"));
             trackViewModel.loadDistanciaPercorrida(newData[0].get("distanciaPercorrida").toString());
             trackViewModel.loadVelocidadeMedia(newData[0].get("velocidadeMedia").toString());
-
-
         });
 
         String rule3 = "select sum(ganho) as cumulativeGain from EventoGain\n";
         EPStatement statement3 = engine.getEPAdministrator().createEPL(rule3);
         statement3.addListener( (newData, oldData) -> {
             trackViewModel.loadElevationGain(newData[0].get("eventoGain").toString());
-            Log.i("gain", newData[0].get("eventoGain").toString());
         });
 
 

@@ -30,7 +30,7 @@ import java.util.List;
 public class SingleGroupDetailViewModel extends ViewModel {
 
     private MutableLiveData<RoutesRegistered[]> routesAvailable;
-    private MutableLiveData<List<RoutesPerformed>> routesPerformed;
+    private MutableLiveData<RoutesPerformed[]> routesPerformed;
 
     private final String baseUri = "http://cidadesinteligentes.lsdi.ufma.br/";
     private RequestQueue queue;
@@ -38,7 +38,7 @@ public class SingleGroupDetailViewModel extends ViewModel {
 
     public SingleGroupDetailViewModel() {
         routesAvailable = new MutableLiveData<RoutesRegistered[]>();
-        routesPerformed = new MutableLiveData<List<RoutesPerformed>>();
+        routesPerformed = new MutableLiveData<RoutesPerformed[]>();
 
     }
 
@@ -51,15 +51,15 @@ public class SingleGroupDetailViewModel extends ViewModel {
         return routesAvailable;
     }
 
-    public MutableLiveData<List<RoutesPerformed>> getRoutesPerformed() {
+    public MutableLiveData<RoutesPerformed[]> getRoutesPerformed() {
         return routesPerformed;
     }
 
 
     public void loadGroupDetails(String resourceUUID){
         loadRoutesOfGroup(resourceUUID);
-
-        routesPerformed.setValue(InternalDB.getPerformedRoutes());
+        loadPerformedRoutes(resourceUUID);
+//        routesPerformed.setValue(InternalDB.getPerformedRoutes());
 
     }
 
@@ -122,6 +122,67 @@ public class SingleGroupDetailViewModel extends ViewModel {
         };
         queue.add(postRequest);
     }
+
+    public void loadPerformedRoutes(String resourceUUID){
+        String final_uri = baseUri.concat("collector/resources/").concat(resourceUUID).concat("/").concat("data");
+        StringRequest postRequest = new StringRequest(Request.Method.POST, final_uri, response -> {
+            try {
+                JSONObject jsonResponse = new JSONObject(response); // transforma a response em objeto json
+
+                JSONArray dados = jsonResponse.getJSONArray("resources") // acessa cada um dos elementos ate chegar ao dado que ta la no centro do json
+                        .getJSONObject(0)
+                        .getJSONObject("capabilities")
+                        .getJSONArray("sb_group_routes_performed");
+
+                String jsonStr = dados.toString();
+                Gson gson = new Gson();
+                routesPerformed.setValue(gson.fromJson(jsonStr, RoutesPerformed[].class));
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }, error -> {
+            System.out.println("you loose: "+ error.toString());
+
+        }){
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+
+                try {
+
+
+                    JSONArray uuids = new JSONArray();
+                    JSONArray capabilities  = new JSONArray();
+
+                    uuids.put(resourceUUID); // Aqui vc adiciona as capacidades que deseja consultar o ultimo dado
+                    capabilities.put("sb_group_routes_performed"); // Aqui vc adiciona as capacidades que deseja consultar o ultimo dado
+
+                    JSONObject data = new JSONObject();
+                    data.put("uuids", uuids);
+                    data.put("capabilities", capabilities);
+
+
+                    return data.toString().getBytes(StandardCharsets.UTF_8);
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+                return super.getBody();
+            }
+
+        };
+        queue.add(postRequest);
+
+    }
+
 
 
 }

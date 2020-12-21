@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view1="http://schemas.android.com/apk/res-auto"
-
-
-
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:orientation="vertical">
 
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view_map_2"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +41,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/route_level"
-                tools:context=".MainActivity" />
+                tools:context=".MainActivity"
+                />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -52,7 +53,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Velocidade Instantânea (m/s): "
+                    android:text="Percurso: "
 
                     android:textColor="@color/black"
                     android:textSize="12sp"
@@ -60,7 +61,7 @@
                     app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
                 <EditText
-                    android:id="@+id/velocidade_inst"
+                    android:id="@+id/percurso"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
@@ -78,9 +79,36 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-
-                    android:text="Velocidade Média (m/s): "
+                    android:textSize="12sp"
                     android:textColor="@color/black"
+
+                    android:text="Evento: "
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/guideline2" />
+
+                <EditText
+                    android:id="@+id/evento"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/leader_map">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Vel Média (m/s): "
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
@@ -88,10 +116,10 @@
                     android:id="@+id/velocidade_media"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="12sp"
 
                     />
             </LinearLayout>
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -101,9 +129,9 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="26dp"
                     android:layout_marginStart="8dp"
-                    android:text="Distância Percorrida (m): "
+                    android:text="Distância percorrida: "
                     android:textColor="@color/black"
                     android:textSize="12sp"
 
@@ -118,8 +146,6 @@
 
                     />
             </LinearLayout>
-
-
 
 
             <LinearLayout
@@ -147,91 +173,33 @@
 
                     />
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/leader_map">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="26dp"
+                    android:layout_marginStart="8dp"
+                    android:text="Data: "
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/guideline2" />
+
+                <EditText
+                    android:id="@+id/data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+
+                    />
+            </LinearLayout>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.68" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/addAlert"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/leader_map">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="Adicione um marcador ao mapa"
-                android:textColor="@color/black"
-                android:textSize="12sp"
-
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/guideline2" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/leader_map">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="Raio: "
-                android:textColor="@color/black"
-                android:textSize="12sp"
-
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/guideline2" />
-
-            <EditText
-                android:id="@+id/radius"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-
-                />
-        </LinearLayout>
-
-
-
-
-    </LinearLayout>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/addAlert"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Adicionar Alerta"
-        app:layout_constraintBottom_toTopOf="@+id/track"
-        tools:layout_editor_absoluteX="8dp" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/track"
-
-        android:layout_width="match_parent"
-        android:text="Acompanhar Grupo"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

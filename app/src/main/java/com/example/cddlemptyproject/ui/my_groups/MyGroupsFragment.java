@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -47,6 +48,8 @@ public class MyGroupsFragment extends Fragment implements MyGroupsRecyclerViewAd
     private MyGroupsViewModel myGroupsViewModel;
     MyGroupsRecyclerViewAdapter adapter;
     private User user;
+    private Button changeUser;
+
     public View onCreateView(@NonNull LayoutInflater inflater,  ViewGroup container, Bundle savedInstanceState) {
         myGroupsViewModel =
                 ViewModelProviders.of(this).get(MyGroupsViewModel.class);
@@ -61,7 +64,15 @@ public class MyGroupsFragment extends Fragment implements MyGroupsRecyclerViewAd
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
 
+        changeUser = root.findViewById(R.id.changeUser);
 
+        changeUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                user.setNome("Thiago Wallass");
+                user.setEmail("thiago.walass@gmail.com");
+            }
+        });
 
 
 

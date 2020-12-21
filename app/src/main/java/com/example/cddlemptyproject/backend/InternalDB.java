@@ -72,19 +72,7 @@ public class InternalDB {
                 new RoutesAvailable("Circuito UFMA-Litorânea")
                 );
     }
-    public static List<RoutesPerformed> getPerformedRoutes(){
 
-
-        return Arrays.asList(
-                new RoutesPerformed("Passeio Ciclista 1º Edição"),
-                new RoutesPerformed("Passeio Ciclista 2º Edição"),
-                new RoutesPerformed("Passeio Ciclista 3º Edição"),
-                new RoutesPerformed("Passeio de Natal"),
-                new RoutesPerformed("Pedal Resistencia"),
-                new RoutesPerformed("Passeio aos Domingos 1"),
-                new RoutesPerformed("Passeio aos Domingos 2")
-        );
-    }
 
 
     public static List<RoutesAvailable> getMembers(){

@@ -62,6 +62,7 @@ public class GroupLeaderFragment extends Fragment implements OnMapReadyCallback,
     EditText routeName;
     EditText routeLevel;
     EditText eventName;
+
     Bundle extras;
     String group_uuid;
     String group_name;
